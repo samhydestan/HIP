@@ -68,7 +68,7 @@ begin
 						memen_o<='1';
 						writeen_o<='0';
 					--store
-					elsif(instruction="101010")
+					elsif(instruction="101010") then
 						MAR_o<=MAR_i;
 						Data_o<=SDR_i;
 						memen_o<='1';
@@ -81,6 +81,6 @@ begin
 				end if;
 			end if;
 		end if;
-	end process
+	end process;
 end Behavioral;
 
