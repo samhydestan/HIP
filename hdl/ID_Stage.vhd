@@ -50,8 +50,8 @@ end ID_Stage;
 
 architecture Behavioral of ID_Stage is
 
-	type ram_type is array (31 downto 0) of STD_LOGIC_VECTOR (31 downto 0);
-	signal REG_BLOCK : ram_type;
+	type reg_type is array (0 to 31) of STD_LOGIC_VECTOR (31 downto 0);
+	signal REG_BLOCK : reg_type := (others => (others => '0'));
 	
 	signal PC2 : STD_LOGIC_VECTOR (31 downto 0);
 	signal A : STD_LOGIC_VECTOR (31 downto 0);
@@ -105,7 +105,7 @@ begin
 	process (clk_i)
 	begin
 		if (clk_i'event and clk_i = '1') then
-			if (ce_i = '1') then
+			if (ce_i = '1' and conv_integer(CtoReg_i) /= 0) then
 				REG_BLOCK(conv_integer(CtoReg_i)) <= C1_i;
 			end if;
 		end if;
