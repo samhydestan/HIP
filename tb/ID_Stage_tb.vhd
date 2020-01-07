@@ -113,6 +113,18 @@ BEGIN
 		CtoReg_i <= (others => '1');
 		C1_i <= (others => '1');
 		IR_i <= "00000000000111110000000000000000";
+		
+		wait for 10 ns;
+		C1_i <= (others => '0');
+		
+		wait for 10 ns;
+		C1_i <= (others => '1');
+		
+		wait for 10 ns;
+		C1_i <= (others => '0');
+		
+		wait for 10 ns;
+		C1_i <= (others => '1');
 
       wait;
    end process;
