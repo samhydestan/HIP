@@ -41,14 +41,12 @@ entity EXE_Stage is
 		A_i : in STD_LOGIC_VECTOR (31 downto 0);
 		B_i : in STD_LOGIC_VECTOR (31 downto 0);
 		IR1_i : in STD_LOGIC_VECTOR (31 downto 0);
-		BZero_o : out STD_LOGIC;
+		SetNewPC_o : out STD_LOGIC;
 		NewPC_o : out STD_LOGIC_VECTOR (31 downto 0);
 		C_o : out STD_LOGIC_VECTOR (31 downto 0);
 		MAR_o : out STD_LOGIC_VECTOR (31 downto 0);
 		SDR_o : out STD_LOGIC_VECTOR (31 downto 0);
-		IR2_o : out STD_LOGIC_VECTOR (31 downto 0);
-		ALUop_o : out STD_LOGIC_VECTOR (4 downto 0);
-		sign_extension_o : out STD_LOGIC_VECTOR (31 downto 0)
+		IR2_o : out STD_LOGIC_VECTOR (31 downto 0)
 	);
 end EXE_Stage;
 
@@ -72,7 +70,7 @@ architecture Behavioral of EXE_Stage is
 	signal y : STD_LOGIC_VECTOR (31 downto 0);
 	signal z : STD_LOGIC_VECTOR (31 downto 0);
 	
-	signal BZero : STD_LOGIC;
+	signal SetNewPC : STD_LOGIC;
 	signal NewPC : STD_LOGIC_VECTOR (31 downto 0);
 	signal C : STD_LOGIC_VECTOR (31 downto 0);
 	signal MAR : STD_LOGIC_VECTOR (31 downto 0);
@@ -81,10 +79,7 @@ architecture Behavioral of EXE_Stage is
 
 begin
 
-	ALUop_o <= ALUop;
-	sign_extension_o <= sign_extension;
-
-	BZero_o <= BZero;
+	SetNewPC_o <= SetNewPC;
 	NewPC_o <= NewPC;
 	C_o <= C;
 	MAR_o <= MAR;
@@ -96,6 +91,16 @@ begin
 	
 	-- OPCODE
 	opcode <= IR1_i(31 downto 26);
+	
+	-- SET NEW PC
+	process (opcode)
+	begin
+		if ((opcode = "100011" and B_i = 0) or (opcode = "100111" and B_i = 1) or (opcode = "101100") or (opcode = "101101") or (opcode = "101111")) then -- BNE, BEQ, J, CALL, RFE
+			SetNewPC <= '1';
+		else
+			SetNewPC <= '0';
+		end if;
+	end process;
 	
 	-- ALUop
 	process (IR1_i(31 downto 26), IR1_i(0))
@@ -180,16 +185,6 @@ begin
 		y_i => y,
 		z_o => z
 	);
-	
-	-- BZero
-	process (B_i)
-	begin
-		if (B_i = 0) then
-			BZero <= '1';
-		else
-			BZero <= '0';
-		end if;
-	end process;
 	
 	-- NewPC
 	process (opcode, EPC, z)

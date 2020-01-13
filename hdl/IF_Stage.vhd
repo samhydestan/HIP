@@ -39,10 +39,10 @@ entity IF_Stage is
 		rst_i : in STD_LOGIC;
 		ce_i : in STD_LOGIC;
 		PCselect_i : in STD_LOGIC_VECTOR (1 downto 0);
-		newPC_i : in STD_LOGIC_VECTOR (31 downto 0);
+		NewPC_i : in STD_LOGIC_VECTOR (31 downto 0);
 		C1_i : in STD_LOGIC_VECTOR (31 downto 0);
-		mem_i : in STD_LOGIC_VECTOR (31 downto 0);
-		mem_o : out STD_LOGIC_VECTOR (31 downto 0);
+		Data_i : in STD_LOGIC_VECTOR (31 downto 0);
+		Addr_o : out STD_LOGIC_VECTOR (31 downto 0);
 		PC1_o : out STD_LOGIC_VECTOR (31 downto 0);
 		IR_o : out STD_LOGIC_VECTOR (31 downto 0)
 	);
@@ -56,7 +56,7 @@ architecture Behavioral of IF_Stage is
 
 begin
 
-	mem_o <= PC;
+	Addr_o <= PC;
 	PC1_o <= PC1;
 	IR_o <= IR;
 
@@ -68,7 +68,7 @@ begin
 				PC <= (others => '0');
 			elsif (ce_i = '1') then
 				case (PCselect_i) is
-					when "00" => PC <= newPC_i;
+					when "00" => PC <= NewPC_i;
 					when "01" => PC <= PC + 4;
 					when "10" => PC <= C1_i;
 					when others => PC <= (others => '0');
@@ -96,7 +96,7 @@ begin
 			if (rst_i = '1') then
 				IR <= (others => '0');
 			elsif (ce_i = '1') then
-				IR <= mem_i;
+				IR <= Data_i;
 			end if;
 		end if;
 	end process;
