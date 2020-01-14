@@ -104,18 +104,18 @@ begin
 		set_op(31 downto 1) <= (others => '0');
 	
 		case ALUop_i is
-			when "01000" =>
+			when "01000" => -- SEQ
 				set_op(0) <= is_zero;
-			when "01001" =>
+			when "01001" => -- SNE
 				set_op(0) <= not is_zero;
-			when "01010" =>
-				set_op(0) <= (x_i(31) and (not y_i(31))) or ((((not x_i(31)) and (not y_i(31))) or (x_i(31) and y_i(31))) and (add_sub_op(31) and (not is_zero)));
-			when "01011" =>
-				set_op(0) <= ((not x_i(31)) and y_i(31)) or ((((not x_i(31)) and (not y_i(31))) or (x_i(31) and y_i(31))) and ((not add_sub_op(31)) and (not is_zero)));
-			when "01100" =>
-				set_op(0) <= add_sub_op(31) and (not is_zero);
-			when "01101" =>
-				set_op(0) <= (not add_sub_op(31)) and (not is_zero);
+			when "01010" => -- SLT
+				set_op(0) <= (not is_zero) and (((not x_i(31)) and (not y_i(31)) and add_sub_op(31)) or (x_i(31) and (not y_i(31)) and add_sub_op(31)) or (x_i(31) and (not y_i(31)) and (not add_sub_op(31))) or (x_i(31) and y_i(31) and add_sub_op(31)));
+			when "01011" => -- SGT
+				set_op(0) <= (not is_zero) and (((not x_i(31)) and y_i(31) and add_sub_op(31)) or ((not x_i(31)) and y_i(31) and (not add_sub_op(31))) or ((not x_i(31)) and (not y_i(31)) and (not add_sub_op(31))) or (x_i(31) and y_i(31) and (not add_sub_op(31))));
+			when "01100" => -- SLTU
+				set_op(0) <= (not is_zero) and ((x_i(31) and y_i(31) and add_sub_op(31)) or ((not x_i(31)) and y_i(31) and add_sub_op(31)) or ((not x_i(31)) and (not y_i(31)) and add_sub_op(31)) or ((not x_i(31)) and y_i(31) and (not add_sub_op(31))));
+			when "01101" => -- SGTU
+				set_op(0) <= (not is_zero) and ((x_i(31) and (not y_i(31)) and add_sub_op(31)) or (x_i(31) and y_i(31) and (not add_sub_op(31))) or (x_i(31) and (not y_i(31)) and (not add_sub_op(31))) or ((not x_i(31)) and (not y_i(31)) and (not add_sub_op(31))));
 			when others =>
 				set_op(0) <= '0';
 		end case;
