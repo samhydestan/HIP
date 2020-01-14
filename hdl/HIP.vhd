@@ -98,7 +98,7 @@ architecture Behavioral of HIP is
 		);
 	end component;
 	
-	component mem
+	component MEM_Stage
 		Port (
 			clk_i	: in STD_LOGIC;
 			rst_i	: in STD_LOGIC;
@@ -117,10 +117,23 @@ architecture Behavioral of HIP is
 		);
 	end component;
 	
+	component WB_Stage is
+		 Port ( clk_i		: in  STD_LOGIC;
+				  rst_i		: in  STD_LOGIC;
+				  ce_i		: in  STD_LOGIC;
+				  C1_i		: in  STD_LOGIC_VECTOR (31 downto 0);
+				  IR3_i		: in  STD_LOGIC_VECTOR (31 downto 0);
+				  CtoReg_o	: out STD_LOGIC_VECTOR (4 downto 0);
+				  C1_o		: out STD_LOGIC_VECTOR (31 downto 0);
+				  SetC1_o	: out STD_LOGIC
+				 );
+	end component;
+	
 	signal ce : STD_LOGIC;
 	signal PCselect : STD_LOGIC_VECTOR (1 downto 0);
 	signal NewPC : STD_LOGIC_VECTOR (31 downto 0);
 	signal C1 : STD_LOGIC_VECTOR (31 downto 0);
+	signal Cout : STD_LOGIC_VECTOR (31 downto 0);
 	signal PC1 : STD_LOGIC_VECTOR (31 downto 0);
 	signal IR : STD_LOGIC_VECTOR (31 downto 0);
 	signal CtoReg : STD_LOGIC_VECTOR (4 downto 0);
@@ -187,7 +200,7 @@ begin
 		PC1_i => PC1,
 		IR_i => IR,
 		CtoReg_i => CtoReg,
-		C1_i => C1,
+		C1_i => Cout,
 		PC2_o => PC2,
 		A_o => A,
 		B_o => B,
@@ -205,6 +218,7 @@ begin
 		B_i => B,
 		IR1_i => IR1,
 		SetNewPC_o => SetNewPC,
+		NewPC_o => NewPC,
 		C_o => C,
 		MAR_o => MAR,
 		SDR_o => SDR,
@@ -212,7 +226,7 @@ begin
 	);
 	
 	-- MEM Stage
-	MEM_St: mem
+	MEM_St: MEM_Stage
 	port map (
 		clk_i => clk_i,
 		rst_i => rst_i,
@@ -229,6 +243,18 @@ begin
 		IR3_o => IR3,
 		Data_i => MEMdata_i
 	);
+	
+	-- WB Stage
+	WB_St: WB_Stage
+	port map (
+		clk_i => clk_i,
+		rst_i => rst_i,
+		ce_i => ce,
+		C1_i => C1,
+		IR3_i => IR3,
+		CtoReg_o => CtoReg,
+		C1_o => Cout,
+		SetC1_o => SetC1
+	);
 
 end Behavioral;
-

@@ -93,7 +93,7 @@ begin
 	opcode <= IR1_i(31 downto 26);
 	
 	-- SET NEW PC
-	process (opcode)
+	process (opcode, B_i)
 	begin
 		if ((opcode = "100011" and B_i = 0) or (opcode = "100111" and B_i = 1) or (opcode = "101100") or (opcode = "101101") or (opcode = "101111")) then -- BNE, BEQ, J, CALL, RFE
 			SetNewPC <= '1';
@@ -103,7 +103,7 @@ begin
 	end process;
 	
 	-- ALUop
-	process (IR1_i(31 downto 26), IR1_i(0))
+	process (IR1_i(31 downto 26), IR1_i(0), opcode)
 	begin
 		case opcode is
 			when "100000"|"100001"|"100011"|"100100"|"100101"|"100110"|"100111"|"101000"|"101001"|"101010"|"101100"|"101101"|"101110" => -- LOAD, STORE, BNE, BEQ, J, CALL, TRAP
@@ -253,4 +253,3 @@ begin
 	end process;
 
 end Behavioral;
-
