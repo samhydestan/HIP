@@ -62,13 +62,13 @@ begin
 				if(ce_i='1') then
 					IR<=IR2_i;
 					--load
-					if(instruction="100110") then
+					if(instruction="100110" or instruction="100101" or instruction="100100" or instruction="100001" or instruction="100000" or instruction="101110") then
 						MAR_o<=MAR_i;
 						C1_o<=Data_i;
 						memen_o<='1';
 						writeen_o<='0';
 					--store
-					elsif(instruction="101010") then
+					elsif(instruction="101010" or instruction="101001" or instruction="101000") then
 						MAR_o<=MAR_i;
 						Data_o<=SDR_i;
 						memen_o<='1';
