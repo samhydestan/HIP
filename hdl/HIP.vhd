@@ -94,9 +94,7 @@ architecture Behavioral of HIP is
 			C_o : out STD_LOGIC_VECTOR (31 downto 0);
 			MAR_o : out STD_LOGIC_VECTOR (31 downto 0);
 			SDR_o : out STD_LOGIC_VECTOR (31 downto 0);
-			IR2_o : out STD_LOGIC_VECTOR (31 downto 0);
-			BNE_o : out STD_LOGIC;
-			BEQ_o : out STD_LOGIC
+			IR2_o : out STD_LOGIC_VECTOR (31 downto 0)
 		);
 	end component;
 	
@@ -206,6 +204,7 @@ begin
 		A_i => A,
 		B_i => B,
 		IR1_i => IR1,
+		SetNewPC_o => SetNewPC,
 		C_o => C,
 		MAR_o => MAR,
 		SDR_o => SDR,
