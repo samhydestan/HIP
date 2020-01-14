@@ -123,7 +123,7 @@ architecture Behavioral of HIP is
 				  ce_i		: in  STD_LOGIC;
 				  C1_i		: in  STD_LOGIC_VECTOR (31 downto 0);
 				  IR3_i		: in  STD_LOGIC_VECTOR (31 downto 0);
-				  CtoReg_o	: out STD_LOGIC_VECTOR (4 downto 0);
+				  CtoReg_o	: out STD_LOGIC_VECTOR (5 downto 0);
 				  C1_o		: out STD_LOGIC_VECTOR (31 downto 0);
 				  SetC1_o	: out STD_LOGIC
 				 );
@@ -218,7 +218,6 @@ begin
 		B_i => B,
 		IR1_i => IR1,
 		SetNewPC_o => SetNewPC,
-		NewPC_o => NewPC,
 		C_o => C,
 		MAR_o => MAR,
 		SDR_o => SDR,
