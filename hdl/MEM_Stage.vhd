@@ -29,7 +29,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity mem is
+entity MEM_Stage is
     Port ( clk_i	: in STD_LOGIC;
 			  rst_i	: in STD_LOGIC;
 			  ce_i	: in STD_LOGIC;
@@ -45,9 +45,9 @@ entity mem is
 			  IR3_o	: out STD_LOGIC_VECTOR (31 downto 0);
 			  Data_i	: in STD_LOGIC_VECTOR (31 downto 0)
 			 );
-end mem;
+end MEM_Stage;
 
-architecture Behavioral of mem is
+architecture Behavioral of MEM_Stage is
 	signal instruction : STD_LOGIC_VECTOR (5 downto 0);
 	signal IR : STD_LOGIC_VECTOR (31 downto 0);
 begin
