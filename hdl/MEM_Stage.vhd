@@ -76,8 +76,12 @@ begin
 					--other
 					else
 						memen_o<='0';
+						writeen_o<='0';
 						C1_o<=C_i;
 					end if;
+				else
+					memen_o<='0';
+					writeen_o<='0';
 				end if;
 			end if;
 		end if;

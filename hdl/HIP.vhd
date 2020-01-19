@@ -118,9 +118,9 @@ architecture Behavioral of HIP is
 	end component;
 	
 	component WB_Stage is
-		 Port ( clk_i		: in  STD_LOGIC;
-				  rst_i		: in  STD_LOGIC;
-				  ce_i		: in  STD_LOGIC;
+		 Port ( --clk_i		: in  STD_LOGIC;
+				  --rst_i		: in  STD_LOGIC;
+				  --ce_i		: in  STD_LOGIC;
 				  C1_i		: in  STD_LOGIC_VECTOR (31 downto 0);
 				  IR3_i		: in  STD_LOGIC_VECTOR (31 downto 0);
 				  CtoReg_o	: out STD_LOGIC_VECTOR (4 downto 0);
@@ -160,6 +160,8 @@ begin
 	IFaddr_o <= IFaddr;
 	MEMaddr_o <= MEMaddr;
 	MEMdata_o <= MEMdata;
+	MemEn_o <= MemEn;
+	MemDir_o <= MemDir;
 	
 	-- clock enable
 	ce <= IFwait_i or MEMwait_i;
@@ -247,9 +249,9 @@ begin
 	-- WB Stage
 	WB_St: WB_Stage
 	port map (
-		clk_i => clk_i,
-		rst_i => rst_i,
-		ce_i => ce,
+		--clk_i => clk_i,
+		--rst_i => rst_i,
+		--ce_i => ce,
 		C1_i => C1,
 		IR3_i => IR3,
 		CtoReg_o => CtoReg,
